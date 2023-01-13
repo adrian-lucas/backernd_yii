@@ -5,11 +5,13 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "{{%alumnos}}".
+ * This is the model class for table "alumnos".
  *
  * @property int $id
  * @property string $nombre
- * @property float $codsis
+ * @property string $codsis
+ *
+ * @property AlumnoMateria[] $alumnoMaterias
  */
 class Alumnos extends \yii\db\ActiveRecord
 {
@@ -28,8 +30,7 @@ class Alumnos extends \yii\db\ActiveRecord
     {
         return [
             [['nombre', 'codsis'], 'required'],
-            [['nombre'], 'string'],
-            [['codsis'], 'number'],
+            [['nombre', 'codsis'], 'string'],
         ];
     }
 
@@ -43,5 +44,15 @@ class Alumnos extends \yii\db\ActiveRecord
             'nombre' => 'Nombre',
             'codsis' => 'Codsis',
         ];
+    }
+
+    /**
+     * Gets query for [[AlumnoMaterias]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAlumnoMaterias()
+    {
+        return $this->hasMany(AlumnoMateria::class, ['alumnos_id' => 'id']);
     }
 }

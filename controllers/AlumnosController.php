@@ -11,10 +11,11 @@ class AlumnosController extends \yii\web\Controller
     $behaviors = parent::behaviors();
     $behaviors['verbs'] = [
         'class' => \yii\filters\VerbFilter::class,
-        'actions' => ['index' => ['get'],
+        'actions' => ['viewallstudents' => ['get'],
                      'register' => ['post'],
-                     //'remove' => ['remove'],
-                     'viewonestudent' =>['get']
+                      'remove' => ['delete'],
+                      'viewonestudent' =>['get'],
+                      'changename' =>['put'],
                      ]
      ];
      return $behaviors;
@@ -43,27 +44,26 @@ class AlumnosController extends \yii\web\Controller
     }
     public function actionViewonestudent()
     {
-        $id = 3;
+        $id = Yii::$app->getRequest()->getBodyParam('id');
         $alumno = Alumnos::findOne($id);
         return $alumno;
     }
     public function actionRemove()
     {
-        $id = 3;
+        $id = Yii::$app->getRequest()->getBodyParam('id');
         $alumno = Alumnos::findOne($id);
         $alumno->delete();
-        
-        
+        return $alumno;
         
     }
-    public function actionChange(){
+    public function actionChangename(){
 
-    }
-
-    public function actionIndex()
-    {
-        $alumnos=Alumnos::find()->all();
-        return $alumnos;
+        $id = Yii::$app->getRequest()->getBodyParam('id');
+        $nuevoNombre = Yii::$app->getRequest()->getBodyParam('nombre');
+        $alumno = Alumnos::findOne($id);
+        $alumno->nombre = $nuevoNombre;
+        $alumno->save();
+        return $alumno;
     }
 
 }
