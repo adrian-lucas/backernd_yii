@@ -2,9 +2,9 @@
 
 namespace app\controllers;
 use Yii;
-use app\models\Alumnos;
+use app\models\Alumno;
 
-class AlumnosController extends \yii\web\Controller
+class AlumnoController extends \yii\web\Controller
 {
     public function behaviors()
     {
@@ -16,6 +16,7 @@ class AlumnosController extends \yii\web\Controller
                       'remove' => ['delete'],
                       'viewonestudent' =>['get'],
                       'changename' =>['put'],
+                      'changeemail'=>['put'],
                      ]
      ];
      return $behaviors;
@@ -28,13 +29,13 @@ class AlumnosController extends \yii\web\Controller
     }
     public function actionViewallstudents()
     {
-        $alumnos=Alumnos::find()->all();
+        $alumnos=Alumno::find()->all();
         return $alumnos;
     }
     public function actionRegister()
     {
         $body = Yii::$app->getRequest()->getBodyParams();
-        $model = new Alumnos();
+        $model = new Alumno();
         $model->load($body,'');
         if(!$model->save()){
             return $model->errors;
@@ -45,13 +46,13 @@ class AlumnosController extends \yii\web\Controller
     public function actionViewonestudent()
     {
         $id = Yii::$app->getRequest()->getBodyParam('id');
-        $alumno = Alumnos::findOne($id);
+        $alumno = Alumno::findOne($id);
         return $alumno;
     }
     public function actionRemove()
     {
         $id = Yii::$app->getRequest()->getBodyParam('id');
-        $alumno = Alumnos::findOne($id);
+        $alumno = Alumno::findOne($id);
         $alumno->delete();
         return $alumno;
         
@@ -60,10 +61,33 @@ class AlumnosController extends \yii\web\Controller
 
         $id = Yii::$app->getRequest()->getBodyParam('id');
         $nuevoNombre = Yii::$app->getRequest()->getBodyParam('nombre');
-        $alumno = Alumnos::findOne($id);
-        $alumno->nombre = $nuevoNombre;
+        $alumno = Alumno::findOne($id);
+        $alumno->nombres= $nuevoNombre;
         $alumno->save();
         return $alumno;
+    }
+    public function actionChangeemail(){
+        $nombre = Yii::$app->getRequest()->getBodyParam('nombre');
+        $nuevoEmail = Yii::$app->getRequest()->getBodyParam('email');
+        $alumno = Alumno::find(['nombres' => $nombre])->one();
+        $alumno->email=$nuevoEmail;
+        $alumno->save();
+        
+
+        /*$id = Yii::$app->getRequest()->getBodyParam('id');
+        $nuevoNombre = Yii::$app->getRequest()->getBodyParam('email');
+        $alumno = Alumno::find($id)->one();
+        $alumno->email= $nuevoNombre;
+        $alumno->save();
+        */
+
+        return $alumno;
+    }
+    
+
+    public function actionIndex()
+    {
+        return $this->render('index');
     }
 
 }

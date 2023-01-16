@@ -5,22 +5,22 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "alumnos".
+ * This is the model class for table "aula".
  *
  * @property int $id
  * @property string $nombre
- * @property string $codsis
+ * @property string $capacidad
  *
- * @property AlumnoMateria[] $alumnoMaterias
+ * @property Hora[] $horas
  */
-class Alumnos extends \yii\db\ActiveRecord
+class Aula extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'alumnos';
+        return 'aula';
     }
 
     /**
@@ -29,8 +29,8 @@ class Alumnos extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'codsis'], 'required'],
-            [['nombre', 'codsis'], 'string'],
+            [['nombre', 'capacidad'], 'required'],
+            [['nombre', 'capacidad'], 'string'],
         ];
     }
 
@@ -42,17 +42,17 @@ class Alumnos extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'nombre' => 'Nombre',
-            'codsis' => 'Codsis',
+            'capacidad' => 'Capacidad',
         ];
     }
 
     /**
-     * Gets query for [[AlumnoMaterias]].
+     * Gets query for [[Horas]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getAlumnoMaterias()
+    public function getHoras()
     {
-        return $this->hasMany(AlumnoMateria::class, ['alumnos_id' => 'id']);
+        return $this->hasMany(Hora::class, ['aula' => 'id']);
     }
 }
