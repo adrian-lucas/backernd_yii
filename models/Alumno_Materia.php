@@ -8,10 +8,10 @@ use Yii;
  * This is the model class for table "alumno_materia".
  *
  * @property int $id
- * @property int $alumo
+ * @property int $alumno
  * @property int $materia
  *
- * @property Alumno $alumo0
+ * @property Alumno $alumno0
  * @property Materia $materia0
  */
 class Alumno_Materia extends \yii\db\ActiveRecord
@@ -30,10 +30,10 @@ class Alumno_Materia extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['alumo', 'materia'], 'required'],
-            [['alumo', 'materia'], 'default', 'value' => null],
-            [['alumo', 'materia'], 'integer'],
-            [['alumo'], 'exist', 'skipOnError' => true, 'targetClass' => Alumno::class, 'targetAttribute' => ['alumo' => 'id']],
+            [['alumno', 'materia'], 'required'],
+            [['alumno', 'materia'], 'default', 'value' => null],
+            [['alumno', 'materia'], 'integer'],
+            [['alumno'], 'exist', 'skipOnError' => true, 'targetClass' => Alumno::class, 'targetAttribute' => ['alumno' => 'id']],
             [['materia'], 'exist', 'skipOnError' => true, 'targetClass' => Materia::class, 'targetAttribute' => ['materia' => 'id']],
         ];
     }
@@ -45,7 +45,7 @@ class Alumno_Materia extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'alumo' => 'Alumo',
+            'alumno' => 'Alumno',
             'materia' => 'Materia',
         ];
     }
@@ -55,9 +55,9 @@ class Alumno_Materia extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getAlumo0()
+    public function getAlumno0()
     {
-        return $this->hasOne(Alumno::class, ['id' => 'alumo']);
+        return $this->hasOne(Alumno::class, ['id' => 'alumno']);
     }
 
     /**

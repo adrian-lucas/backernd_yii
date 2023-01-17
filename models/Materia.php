@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "materia".
  *
  * @property int $id
- * @property string $codigi_sis
+ * @property string $codigo_sis
  * @property string $nombre
  *
  * @property AlumnoMateria[] $alumnoMaterias
@@ -31,8 +31,8 @@ class Materia extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['codigi_sis', 'nombre'], 'required'],
-            [['codigi_sis', 'nombre'], 'string'],
+            [['codigo_sis', 'nombre'], 'required'],
+            [['codigo_sis', 'nombre'], 'string'],
         ];
     }
 
@@ -43,7 +43,7 @@ class Materia extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'codigi_sis' => 'Codigi Sis',
+            'codigo_sis' => 'Codigo Sis',
             'nombre' => 'Nombre',
         ];
     }

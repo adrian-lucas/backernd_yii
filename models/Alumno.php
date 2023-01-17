@@ -14,7 +14,7 @@ use Yii;
  * @property string $apellidos
  * @property string $email
  * @property string $fecha_nacimiento
- * @property string $contraseña
+ * @property string $contrasenia
  *
  * @property AlumnoMateria[] $alumnoMaterias
  * @property Nota[] $notas
@@ -65,7 +65,7 @@ class Alumno extends \yii\db\ActiveRecord
      */
     public function getAlumnoMaterias()
     {
-        return $this->hasMany(AlumnoMateria::class, ['alumo' => 'id']);
+        return $this->hasMany(AlumnoMateria::class, ['alumno' => 'id']);
     }
 
     /**
