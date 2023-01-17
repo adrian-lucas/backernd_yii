@@ -76,7 +76,7 @@ class AlumnoController extends \yii\web\Controller
         
         return $alumno;
     }
-    public function actionMaterias(){
+    public function actionMateriasActuales(){
         $id = Yii::$app->getRequest()->getBodyParam('id');
         $alumno = Alumno::findOne($id);
         return $alumno->alumnoMaterias;

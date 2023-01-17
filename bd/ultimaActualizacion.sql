@@ -66,7 +66,7 @@ ALTER SEQUENCE public.alumno_id_seq OWNED BY public.alumno.id;
 
 CREATE TABLE public.alumno_materia (
     id integer NOT NULL,
-    alumo integer NOT NULL,
+    alumno integer NOT NULL,
     materia integer NOT NULL
 );
 
@@ -174,7 +174,7 @@ ALTER SEQUENCE public.hora_id_seq OWNED BY public.hora.id;
 
 CREATE TABLE public.materia (
     id integer NOT NULL,
-    codigi_sis character varying NOT NULL,
+    codigo_sis character varying NOT NULL,
     nombre character varying NOT NULL
 );
 
@@ -211,7 +211,8 @@ CREATE TABLE public.nota (
     id integer NOT NULL,
     gestion character varying NOT NULL,
     alumno integer NOT NULL,
-    materia integer NOT NULL
+    materia integer NOT NULL,
+    puntaje numeric NOT NULL
 );
 
 
@@ -295,7 +296,12 @@ COPY public.alumno (id, codigo_sis, ci, nombres, apellidos, email, fecha_nacimie
 -- Data for Name: alumno_materia; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.alumno_materia (id, alumo, materia) FROM stdin;
+COPY public.alumno_materia (id, alumno, materia) FROM stdin;
+1	3	1
+2	3	2
+3	3	3
+4	1	4
+5	1	3
 \.
 
 
@@ -304,6 +310,11 @@ COPY public.alumno_materia (id, alumo, materia) FROM stdin;
 --
 
 COPY public.aula (id, nombre, capacidad) FROM stdin;
+1	691A	90
+2	691b	90
+3	691c	90
+4	691F	30
+5	692G	25
 \.
 
 
@@ -312,6 +323,17 @@ COPY public.aula (id, nombre, capacidad) FROM stdin;
 --
 
 COPY public.hora (id, dia, hora_inicio, hora_fin, aula, materia) FROM stdin;
+1	lunes	09:45:00	11:15:00	1	1
+2	jueves	14:15:00	15:45:00	5	1
+3	viernes	08:15:00	09:45:00	3	1
+4	lunes	08:15:00	09:45:00	5	2
+5	martes	08:15:00	09:45:00	3	2
+6	miercoles	08:15:00	09:45:00	4	2
+7	miercoles	11:15:00	12:45:00	1	3
+8	jueves	11:15:00	12:45:00	2	3
+9	viernes	11:15:00	12:45:00	3	3
+10	sabado	08:15:00	09:45:00	5	4
+11	sabado	09:45:00	11:15:00	1	4
 \.
 
 
@@ -319,7 +341,11 @@ COPY public.hora (id, dia, hora_inicio, hora_fin, aula, materia) FROM stdin;
 -- Data for Name: materia; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.materia (id, codigi_sis, nombre) FROM stdin;
+COPY public.materia (id, codigo_sis, nombre) FROM stdin;
+1	1234	calculo
+2	7895	algebra
+3	9025	logica
+4	7895	programacion
 \.
 
 
@@ -327,7 +353,12 @@ COPY public.materia (id, codigi_sis, nombre) FROM stdin;
 -- Data for Name: nota; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.nota (id, gestion, alumno, materia) FROM stdin;
+COPY public.nota (id, gestion, alumno, materia, puntaje) FROM stdin;
+1	2-2022	3	1	55
+2	2-2022	3	2	78
+3	2-2022	3	3	28
+4	2-2022	1	4	95
+5	2-2022	1	3	88
 \.
 
 
@@ -342,35 +373,35 @@ SELECT pg_catalog.setval('public.alumno_id_seq', 3, true);
 -- Name: alumno_materia_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.alumno_materia_id_seq', 1, false);
+SELECT pg_catalog.setval('public.alumno_materia_id_seq', 5, true);
 
 
 --
 -- Name: aula_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.aula_id_seq', 1, false);
+SELECT pg_catalog.setval('public.aula_id_seq', 5, true);
 
 
 --
 -- Name: hora_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.hora_id_seq', 1, false);
+SELECT pg_catalog.setval('public.hora_id_seq', 11, true);
 
 
 --
 -- Name: materia_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.materia_id_seq', 1, false);
+SELECT pg_catalog.setval('public.materia_id_seq', 4, true);
 
 
 --
 -- Name: nota_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.nota_id_seq', 1, false);
+SELECT pg_catalog.setval('public.nota_id_seq', 5, true);
 
 
 --
@@ -426,7 +457,7 @@ ALTER TABLE ONLY public.nota
 --
 
 ALTER TABLE ONLY public.alumno_materia
-    ADD CONSTRAINT alumno_materia_alumnofk FOREIGN KEY (alumo) REFERENCES public.alumno(id);
+    ADD CONSTRAINT alumno_materia_alumnofk FOREIGN KEY (alumno) REFERENCES public.alumno(id);
 
 
 --

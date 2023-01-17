@@ -11,6 +11,7 @@ use Yii;
  * @property string $gestion
  * @property int $alumno
  * @property int $materia
+ * @property float $puntaje
  *
  * @property Alumno $alumno0
  * @property Materia $materia0
@@ -31,10 +32,11 @@ class Nota extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['gestion', 'alumno', 'materia'], 'required'],
+            [['gestion', 'alumno', 'materia', 'puntaje'], 'required'],
             [['gestion'], 'string'],
             [['alumno', 'materia'], 'default', 'value' => null],
             [['alumno', 'materia'], 'integer'],
+            [['puntaje'], 'number'],
             [['alumno'], 'exist', 'skipOnError' => true, 'targetClass' => Alumno::class, 'targetAttribute' => ['alumno' => 'id']],
             [['materia'], 'exist', 'skipOnError' => true, 'targetClass' => Materia::class, 'targetAttribute' => ['materia' => 'id']],
         ];
@@ -50,6 +52,7 @@ class Nota extends \yii\db\ActiveRecord
             'gestion' => 'Gestion',
             'alumno' => 'Alumno',
             'materia' => 'Materia',
+            'puntaje' => 'Puntaje',
         ];
     }
 

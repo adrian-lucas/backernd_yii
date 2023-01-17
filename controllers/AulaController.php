@@ -2,9 +2,9 @@
 
 namespace app\controllers;
 use Yii;
-use app\models\Nota;
+use app\models\Aula;
 
-class NotaController extends \yii\web\Controller
+class AulaController extends \yii\web\Controller
 {
     public function behaviors()
     {
@@ -12,34 +12,33 @@ class NotaController extends \yii\web\Controller
     $behaviors['verbs'] = [
         'class' => \yii\filters\VerbFilter::class,
         'actions' => [
-                       'viewall'=>['get'],  
+                       'viewAll'=>['get'],  
                        'register'=>['post']
                      ]
      ];
      return $behaviors;
     }
+
     public function beforeAction($action)
     {
         Yii::$app->response->format= \yii\web\Response::FORMAT_JSON;
         $this->enableCsrfValidation=false;
         return parent::beforeAction($action); 
     }
-    public function actionViewall()
+
+    public function actionViewAll()
     {
-        return Nota::find()->all();
+        return Aula::find()->all();
 
     }
     public function actionRegister()
     {
-        $nota = new Nota();
+        $aula = new Aula();
         $body = Yii::$app->request;
-        $nota->gestion = $body->getBodyParam('gestion');
-        $nota->alumno = $body->getBodyParam('alumno');
-        $nota->materia = $body->getBodyParam('materia');
-        $nota->puntaje = $body->getBodyParam('puntaje');
-        $nota->save();
-        return $nota;
-
+        $aula->nombre = $body->getBodyParam('nombre');
+        $aula->capacidad = $body->getBodyParam('capacidad');
+        $aula->save();
+        return $aula;
     }
     
     public function actionIndex()

@@ -2,46 +2,49 @@
 
 namespace app\controllers;
 use Yii;
-use app\models\Nota;
+use app\models\Hora;
 
-class NotaController extends \yii\web\Controller
+class HoraController extends \yii\web\Controller
 {
+    
     public function behaviors()
     {
     $behaviors = parent::behaviors();
     $behaviors['verbs'] = [
         'class' => \yii\filters\VerbFilter::class,
         'actions' => [
-                       'viewall'=>['get'],  
+                       'viewAll'=>['get'],  
                        'register'=>['post']
                      ]
      ];
      return $behaviors;
     }
+
     public function beforeAction($action)
     {
         Yii::$app->response->format= \yii\web\Response::FORMAT_JSON;
         $this->enableCsrfValidation=false;
         return parent::beforeAction($action); 
     }
-    public function actionViewall()
-    {
-        return Nota::find()->all();
 
+    public function actionViewAll()
+    {
+        return Hora::find()->all();
     }
-    public function actionRegister()
-    {
-        $nota = new Nota();
+    public function actionRegister(){
+        $hora = new Hora();
         $body = Yii::$app->request;
-        $nota->gestion = $body->getBodyParam('gestion');
-        $nota->alumno = $body->getBodyParam('alumno');
-        $nota->materia = $body->getBodyParam('materia');
-        $nota->puntaje = $body->getBodyParam('puntaje');
-        $nota->save();
-        return $nota;
-
+        $hora->dia = $body->getBodyParam('dia');
+        $hora->hora_inicio = $body->getBodyParam('hora_inicio');
+        $hora->hora_fin = $body->getBodyParam('hora_fin');
+        $hora->aula = $body->getBodyParam('aula');
+        $hora->materia = $body->getBodyParam('materia');
+        $hora->save();
+        return $hora;
     }
     
+
+
     public function actionIndex()
     {
         return $this->render('index');

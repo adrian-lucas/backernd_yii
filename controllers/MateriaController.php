@@ -14,6 +14,8 @@ class MateriaController extends \yii\web\Controller
         'class' => \yii\filters\VerbFilter::class,
         'actions' => ['register'=>['post'],
                        'viewall'=>['get'],  
+                       'alumnos'=>['get'],
+                       'horarios'=>['get'],
                      ]
      ];
      return $behaviors;
@@ -37,6 +39,17 @@ class MateriaController extends \yii\web\Controller
         $materia->codigo_sis = $body->getBodyParam('codigo_sis');
         $materia->save();
         return $materia;
+    }
+    public function actionAlumnosInscritos(){
+        $idMateria = Yii::$app->getRequest()->getBodyParam('id');
+        $materia = Materia::findOne($idMateria);
+        return $materia->alumnoMaterias; 
+    }
+    public function actionHorarios()
+    {
+        $idMateria = Yii::$app->getRequest()->getBodyParams('id');
+        $materia = Materia::findOne($idMateria);
+        return $materia->horas;
     }
 
     public function actionIndex()
