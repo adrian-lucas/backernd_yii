@@ -17,6 +17,7 @@ class AlumnoController extends \yii\web\Controller
                       'viewonestudent' =>['get'],
                       'changename' =>['put'],
                       'changeemail'=>['put'],
+                      'materias'=>['get'],
                      ]
      ];
      return $behaviors;
@@ -73,15 +74,12 @@ class AlumnoController extends \yii\web\Controller
         $alumno->email=$nuevoEmail;
         $alumno->save();
         
-
-        /*$id = Yii::$app->getRequest()->getBodyParam('id');
-        $nuevoNombre = Yii::$app->getRequest()->getBodyParam('email');
-        $alumno = Alumno::find($id)->one();
-        $alumno->email= $nuevoNombre;
-        $alumno->save();
-        */
-
         return $alumno;
+    }
+    public function actionMaterias(){
+        $id = Yii::$app->getRequest()->getBodyParam('id');
+        $alumno = Alumno::findOne($id);
+        return $alumno->alumnoMaterias;
     }
     
 

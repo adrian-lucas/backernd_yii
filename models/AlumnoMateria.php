@@ -14,7 +14,7 @@ use Yii;
  * @property Alumno $alumno0
  * @property Materia $materia0
  */
-class Alumno_Materia extends \yii\db\ActiveRecord
+class AlumnoMateria extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -51,7 +51,7 @@ class Alumno_Materia extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Alumo0]].
+     * Gets query for [[Alumno0]].
      *
      * @return \yii\db\ActiveQuery
      */

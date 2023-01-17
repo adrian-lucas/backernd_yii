@@ -2,9 +2,9 @@
 
 namespace app\controllers;
 use Yii;
-use app\models\Alumno_Materia;
+use app\models\AlumnoMateria;
 
-class Alumno_MateriaController extends \yii\web\Controller
+class AlumnoMateriaController extends \yii\web\Controller
 {
     public function behaviors()
     {
@@ -23,17 +23,17 @@ class Alumno_MateriaController extends \yii\web\Controller
         $this->enableCsrfValidation=false;
         return parent::beforeAction($action);
     }
-    public function actionViewall()
+    public function actionViewAll()
     {
-        return Alumno_Materia::find()->all();
+        return AlumnoMateria::find()->all();
     }
 
     public function actionRegister()
     {
-        $alumnoMateria = new Alumno_Materia();
+        $alumnoMateria = new AlumnoMateria();
         $body = Yii::$app->request;
         $alumnoMateria->alumno = $body->getBodyParam('alumno');
-        $alumnoMateria->materia = $body->getBodyPararam('materia'); 
+        $alumnoMateria->materia = $body->getBodyParam('materia'); 
         $alumnoMateria->save();
         return $alumnoMateria;
     }
@@ -41,5 +41,6 @@ class Alumno_MateriaController extends \yii\web\Controller
     {
         return $this->render('index');
     }
+    
 
 }
