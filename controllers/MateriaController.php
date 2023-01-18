@@ -16,6 +16,8 @@ class MateriaController extends \yii\web\Controller
                        'viewall'=>['get'],  
                        'alumnos'=>['get'],
                        'horarios'=>['get'],
+                       'notas'=>['get'],
+                       'aprobados'=>['get'],
                      ]
      ];
      return $behaviors;
@@ -50,6 +52,25 @@ class MateriaController extends \yii\web\Controller
         $idMateria = Yii::$app->getRequest()->getBodyParams('id');
         $materia = Materia::findOne($idMateria);
         return $materia->horas;
+    }
+    public function actionNotas()
+    {
+        $idMateria =Yii::$app->getRequest()->getBodyParam('id');
+        $materia = Materia::findOne($idMateria);
+        return $materia->notas;
+    }
+    public function actionAprobados()
+    {
+        $notaMinima=50;
+        $idMateria = Yii::$app->getRequest()->getBodyParam('id');
+        $materia = Materia::findOne($idMateria);
+        $aprobados = $materia->getNotas()
+                    ->select(['gestion','alumno','puntaje'])
+                    ->where(['>','puntaje',$notaMinima])
+                    ->all();
+        
+        return $aprobados;
+
     }
 
     public function actionIndex()

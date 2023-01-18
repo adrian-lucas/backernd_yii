@@ -14,8 +14,8 @@ use Yii;
  * @property int $aula
  * @property int $materia
  *
- * @property Aula $aula0
- * @property Materia $materia0
+ * @property Aula $aulas
+ * @property Materia $materias
  */
 class Hora extends \yii\db\ActiveRecord
 {
@@ -63,7 +63,7 @@ class Hora extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getAula0()
+    public function getAulas()
     {
         return $this->hasOne(Aula::class, ['id' => 'aula']);
     }
@@ -73,7 +73,7 @@ class Hora extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getMateria0()
+    public function getMaterias()
     {
         return $this->hasOne(Materia::class, ['id' => 'materia']);
     }

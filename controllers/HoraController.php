@@ -14,7 +14,8 @@ class HoraController extends \yii\web\Controller
         'class' => \yii\filters\VerbFilter::class,
         'actions' => [
                        'viewAll'=>['get'],  
-                       'register'=>['post']
+                       'register'=>['post'],
+                       'aulas'=>['get'],
                      ]
      ];
      return $behaviors;
@@ -41,6 +42,12 @@ class HoraController extends \yii\web\Controller
         $hora->materia = $body->getBodyParam('materia');
         $hora->save();
         return $hora;
+    }
+    public function actionAulas()
+    {
+        $id = Yii::$app->getRequest()->getBodyParam('id');
+        $hora = Hora::findOne($id);
+        return $hora->aulas;
     }
     
 

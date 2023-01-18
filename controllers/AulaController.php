@@ -13,7 +13,8 @@ class AulaController extends \yii\web\Controller
         'class' => \yii\filters\VerbFilter::class,
         'actions' => [
                        'viewAll'=>['get'],  
-                       'register'=>['post']
+                       'register'=>['post'],
+                       'hours'=>['get'],
                      ]
      ];
      return $behaviors;
@@ -37,8 +38,15 @@ class AulaController extends \yii\web\Controller
         $body = Yii::$app->request;
         $aula->nombre = $body->getBodyParam('nombre');
         $aula->capacidad = $body->getBodyParam('capacidad');
-        $aula->save();
+        $aula->;
         return $aula;
+    }
+    public function actionHours()
+    {
+        $id = Yii::$app->getRequest()->getBodyParam('id');
+        $aula = new Aula();
+        $aula = Aula::findOne($id);
+        return $aula->horas;
     }
     
     public function actionIndex()

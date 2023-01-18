@@ -4,6 +4,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Alumno;
 
+
 class AlumnoController extends \yii\web\Controller
 {
     public function behaviors()
@@ -18,6 +19,9 @@ class AlumnoController extends \yii\web\Controller
                       'changename' =>['put'],
                       'changeemail'=>['put'],
                       'materias'=>['get'],
+                      'notas'=>['get'],
+                      'notasaceptables'=>['get'],
+                      'notasnombre'=>['get'],
                      ]
      ];
      return $behaviors;
@@ -58,7 +62,8 @@ class AlumnoController extends \yii\web\Controller
         return $alumno;
         
     }
-    public function actionChangename(){
+    public function actionChangename()
+    {
 
         $id = Yii::$app->getRequest()->getBodyParam('id');
         $nuevoNombre = Yii::$app->getRequest()->getBodyParam('nombre');
@@ -67,7 +72,8 @@ class AlumnoController extends \yii\web\Controller
         $alumno->save();
         return $alumno;
     }
-    public function actionChangeemail(){
+    public function actionChangeemail()
+    {
         $nombre = Yii::$app->getRequest()->getBodyParam('nombre');
         $nuevoEmail = Yii::$app->getRequest()->getBodyParam('email');
         $alumno = Alumno::find(['nombres' => $nombre])->one();
@@ -76,10 +82,36 @@ class AlumnoController extends \yii\web\Controller
         
         return $alumno;
     }
-    public function actionMateriasActuales(){
+    public function actionMaterias()
+    {
         $id = Yii::$app->getRequest()->getBodyParam('id');
         $alumno = Alumno::findOne($id);
         return $alumno->alumnoMaterias;
+    }
+    public function actionNotas()
+    {
+        $id = Yii::$app->getRequest()->getBodyParam('id');
+        $alumno = Alumno::findOne($id);
+        return $alumno->notas;
+    }
+    public function actionNotasAceptables()
+    {
+        $id = Yii::$app->getRequest()->getBodyParam('id');
+        $alumno = Alumno::findOne($id);
+        return $alumno->getNotas()
+                      ->select(['gestion','materia','puntaje'])
+                      ->all();
+    }
+    public function actionNotasNombre()
+    {
+        $id = Yii::$app->getRequest()->getBodyParam('id');
+        $alumno = Alumno::find()
+                          ->select(['nota.gestion','materia.nombre','nota.puntaje','alumno.nombres'])
+                          ->leftJoin('materia','nota.materia = materia.id')
+                          ->where(['alumno.id'=>$id])
+                          ->asArray()
+                          ->all();
+        return $alumno;
     }
     
 
