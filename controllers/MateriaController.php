@@ -44,20 +44,39 @@ class MateriaController extends \yii\web\Controller
     }
     public function actionAlumnosInscritos(){
         $idMateria = Yii::$app->getRequest()->getBodyParam('id');
-        $materia = Materia::findOne($idMateria);
-        return $materia->alumnoMaterias; 
+        $materia = Materia::find()
+                            ->select(['materia.nombre','alumno.nombres'])
+                            ->leftJoin('alumno_materia','alumno_materia.materia = materia.id')
+                            ->leftJoin('alumno','alumno_materia.alumno = alumno.id')
+                            ->where(['materia.id'=>$idMateria])
+                            ->asArray()
+                            ->all();
+        return $materia; 
     }
     public function actionHorarios()
     {
         $idMateria = Yii::$app->getRequest()->getBodyParams('id');
-        $materia = Materia::findOne($idMateria);
-        return $materia->horas;
+        $materia = Materia::find()
+                            ->select(['materia.nombre as materia','hora.dia','aula.nombre as aula','hora.hora_inicio','hora.hora_fin'])
+                            ->leftJoin('hora','hora.materia = materia.id')
+                            ->leftJoin('aula','hora.aula = aula.id')
+                            ->where(['materia.id'=>$idMateria])
+                            ->asArray()
+                            ->all();
+
+        return $materia;
     }
     public function actionNotas()
     {
         $idMateria =Yii::$app->getRequest()->getBodyParam('id');
-        $materia = Materia::findOne($idMateria);
-        return $materia->notas;
+        $materia = Materia::find()
+                            ->select(['materia.nombre materia','alumno.nombres as alumno','nota.puntaje as nota','nota.gestion'])
+                            ->leftJoin('nota','nota.materia = materia.id')
+                            ->leftJoin('alumno','nota.alumno = alumno.id')
+                            ->where(['materia.id'=>$idMateria])
+                            ->asArray()
+                            ->all();
+        return $materia;
     }
     public function actionAprobados()
     {
