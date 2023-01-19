@@ -3,10 +3,17 @@
 namespace app\controllers;
 use Yii;
 use app\models\Alumno;
+use yii\db\Exception;
+use yii\base\ErrorException;
+use yii\base\UserException;
+
+
+
 
 
 class AlumnoController extends \yii\web\Controller
 {
+    
     public function behaviors()
     {
     $behaviors = parent::behaviors();
@@ -88,12 +95,7 @@ class AlumnoController extends \yii\web\Controller
         $alumno = Alumno::findOne($id);
         return $alumno->alumnoMaterias;
     }
-    public function actionNotas()
-    {
-        $id = Yii::$app->getRequest()->getBodyParam('id');
-        $alumno = Alumno::findOne($id);
-        return $alumno->notas;
-    }
+
     public function actionNotasAceptables()
     {
         $id = Yii::$app->getRequest()->getBodyParam('id');
@@ -102,15 +104,21 @@ class AlumnoController extends \yii\web\Controller
                       ->select(['gestion','materia','puntaje'])
                       ->all();
     }
-    public function actionNotasNombre()
+    public function actionNotas()
     {
+        
         $id = Yii::$app->getRequest()->getBodyParam('id');
+        try{
         $alumno = Alumno::find()
                           ->select(['nota.gestion','materia.nombre','nota.puntaje','alumno.nombres'])
+                          ->leftJoin('nota','nota.alumno=alumno.id')
                           ->leftJoin('materia','nota.materia = materia.id')
                           ->where(['alumno.id'=>$id])
                           ->asArray()
                           ->all();
+        }catch(Exception $ue){
+            return $ue;
+        }
         return $alumno;
     }
     
@@ -118,6 +126,16 @@ class AlumnoController extends \yii\web\Controller
     public function actionIndex()
     {
         return $this->render('index');
+    }
+    public function actionRegisters(){
+        $body = Yii::$app->getRequest()->getBodyParams();
+        $model = new Alumno();
+        $model->load($body,'');
+        if(!$model->save()){
+            return $model->errors;
+        }
+        return $model;
+
     }
 
 }
