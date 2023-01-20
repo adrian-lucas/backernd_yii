@@ -57,7 +57,6 @@ class AlumnoController extends \yii\web\Controller
             return $model->errors;
         }
         return $model;
-
     }
 
     public function actionViewonestudent()
@@ -71,13 +70,16 @@ class AlumnoController extends \yii\web\Controller
     {
         $id = Yii::$app->getRequest()->getBodyParam('id');
         $alumno = Alumno::findOne($id);
+        try{
         $alumno->delete();
+        }catch(Exception $e){
+            return $e;
+        }
         return $alumno;
         
     }
 
     public function actionChangename()
-    
     {
         $id = Yii::$app->getRequest()->getBodyParam('id');
         $body = Yii::$app->getRequest()->getBodyParams();
@@ -140,30 +142,23 @@ class AlumnoController extends \yii\web\Controller
 
     public function actionNotas()
     {
-        $codigo_sis = Yii::$app->getRequest()->getBodyParam('codigo_sis');
-        try{
-        $alumno = Alumno::find()
-                          ->select(['nota.gestion','materia.nombre','nota.puntaje','alumno.nombres'])
-                          ->leftJoin('nota','nota.alumno=alumno.id')
-                          ->leftJoin('materia','nota.materia = materia.id')
-                          ->where(['alumno.codigo_sis'=>$codigo_sis])
-                          ->asArray()
-                          ->all();
-        }catch(Exception $e){
-            return $e;
-        }
+        $codigo_sis= Yii::$app->getRequest()->getBodyParam('codigo_sis');
+      
+            $alumno = Alumno::find()
+                            ->select(['nota.gestion','materia.nombre','nota.puntaje','alumno.nombres'])
+                            ->leftJoin('nota','nota.alumno=alumno.id')
+                            ->leftJoin('materia','nota.materia = materia.id')
+                            ->where(['alumno.codigo_sis'=>$codigo_sis])
+                            ->asArray()
+                            ->all();
         return $alumno;
     }
     
-    public function actionRegisters()
+    public function actionWith()
     {
-        $body = Yii::$app->getRequest()->getBodyParams();
-        $model = new Alumno();
-        $model->load($body,'');
-        if(!$model->save()){
-            return $model->errors;
-        }
-        return $model;
+        return Alumno::find()
+                      ->with('alumnoMaterias')
+                      ->all();
     }
     
 }
